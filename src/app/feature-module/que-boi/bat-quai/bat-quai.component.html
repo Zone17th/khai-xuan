@@ -1,0 +1,66 @@
+<p>
+  Mọi thông tin/nội dung về các quẻ được lấy từ https://thanglongdaoquan.vn/ và chỉ mang tính giải trí.
+</p>
+<p>
+  Tin thì tin, không tin thì tin ...
+</p>
+<p>
+  Còn bây giờ thì
+</p>
+<h2 class="mb-3">Let's Go!</h2>
+<form action="get" [formGroup]="infoForm">
+  <div>
+    <p>Hãy cho tôi biết một chút về bạn nào!</p>
+    <div>
+      <label class="me-3 mb-3 label-text">Bạn là: </label>
+      <input formControlName="gender" type="radio" id="male" value="male"/>
+      <label class="ms-2 me-4 mb-3" for="male">Đẹp trai nhưng độc toàn thân</label>
+    </div>
+    <div>
+      <label class="me-3 mb-3 label-text"></label>
+      <input formControlName="gender" type="radio" id="female" value="female"/>
+      <label class="mx-2 mb-3" for="female">Xinh gái nhưng chưa ai yêu</label>
+    </div>
+  </div>
+  <div>
+    <label class="me-3 mb-3 label-text" for="age">Tuổi của bạn: </label>
+    <input type="text" formControlName="age" id="age" (blur)="inputAgeTouched = true" autofocus/>
+  </div>
+  <div class="text-danger mb-3" *ngIf="inputAgeTouched && age?.errors?.['required']">
+    {{ tmpName }} à, {{ tmpName }} bao nhiêu tuổi rồi?
+  </div>
+  <ng-container *ngIf="inputAgeTouched && age?.invalid && (age?.dirty && age?.touched)">
+    <p class="text-danger mb-3" *ngIf="age?.hasError('pattern') || age?.hasError('maxlength')">
+      {{ tmpName }} à, {{ tmpName }} nhập đúng tuổi rồi chứ? Sao tui cứ thấy sai đâu zậy à
+    </p>
+  </ng-container>
+  <div>
+    <label class="me-3 mb-3 label-text" for="name" formControlName="fullName">Tên bạn là: </label>
+    <input type="text" formControlName="fullName" id="name" (blur)="inputFullNameTouched = true"/>
+  </div>
+  <p class="text-danger mb-3" *ngIf="inputFullNameTouched && fullName?.errors?.['required']">
+    {{ tmpName }} à, tôi rất muốn biết tên {{ tmpName }} ...
+  </p>
+  <ng-container *ngIf="inputFullNameTouched && fullName?.invalid && (fullName?.dirty && fullName?.touched)">
+    <p class="text-danger mb-3" *ngIf="fullName?.hasError('pattern') || fullName?.hasError('maxlength')">
+      {{ tmpName }} à, {{ tmpName }} nhập đúng tên rồi chứ? Sao tui cứ thấy sai đâu zậy à
+    </p>
+  </ng-container>
+
+  <button class="{{classBtn}} my-3" (click)="onSubmit()">Start now!</button>
+  <button class="{{classQue}} my-3" (click)="onEdit()">Nhập lại!</button>
+</form>
+
+<div class="{{classQue}}">
+  <div class="img-shake">
+    <img class="{{shake_btn}} cursor-pointer mb-3" (mousedown)="clickRung()" (mouseup)="onResult()"
+         ngSrc="../../../../assets/que-dich6.png" alt="Click Shake It"
+         height="360" width="360">
+  </div>
+  <div *ngIf="rd">
+    <p *ngIf="title"><strong>{{ tmpName }} vừa rút được quẻ {{ title }} đóa</strong></p>
+    <p>{{ detail }}</p>
+    <div [innerHTML]="list"></div>
+    <p>{{ note }}</p>
+  </div>
+</div>
